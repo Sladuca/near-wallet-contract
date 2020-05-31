@@ -1,18 +1,18 @@
 {
-  "name": "peleon-wallet-contract",
+  "name": "wallet-contract",
   "version": "1.0.0",
-  "description": "Peleon's walle contract built using NEAR protocol's example fungible token",
+  "description": "Hostet wallet contract built atop NEAR protocol example",
   "scripts": {
     "build": "cargo build --target wasm32-unknown-unknown --release",
-    "postbuild": "cp target/wasm32-unknown-unknown/release/chiron_token.wasm ./res/",
-    "test": "cargo test --package chiron-token -- --nocapture"
+    "postbuild": "cp target/wasm32-unknown-unknown/release/peleon_wallet_contract.wasm ./res/",
+    "test": "cargo test --package peleon_wallet_contract -- --nocapture"
   },
   "keywords": [
     "near-protocol",
     "blockchain",
     "rust",
     "smart-contract",
-    "hosted-wallet",
+    "hosted-wallet"
   ],
   "author": "Mike Purvis, Sebastien La Duca",
   "license": "MIT",

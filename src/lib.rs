@@ -1,13 +1,13 @@
 use borsh::{BorshDeserialize, BorshSerialize};
 use near_sdk::collections::Map;
-use near_sdk::json_types::{U128};
 use near_sdk::{env, near_bindgen, AccountId, Promise};
+// use std::process::{abort};
 
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 // Prepaid gas for making a single simple call.
-const SINGLE_CALL_GAS: u64 = 1_000_000_000_000_000_000;
+// const SINGLE_CALL_GAS: u64 = 1_000_000_000_000_000_000;
 
 #[derive(BorshDeserialize, BorshSerialize)]
 pub struct Account {
@@ -29,6 +29,7 @@ pub struct ContractWallet {
 impl Default for ContractWallet {
   fn default() -> Self {
     panic!("Contract wallet must be initialized before use!")
+    // abort()
   }
 }
 
@@ -37,14 +38,14 @@ impl Default for ContractWallet {
 impl ContractWallet {
   #[init]
   pub fn new(manager_id: AccountId, manager_pk: Vec<u8>, gateway_contract: AccountId) -> Self {
-    assert!(env::is_valid_account_id(manager_id.as_bytes()), "Manager's account ID is invalid!");
+    // assert!(env::is_valid_account_id(manager_id.as_bytes()), "Manager's account ID is invalid!");
     ContractWallet {
       owner_id: env::signer_account_id(),
       owner_pk: env::signer_account_pk(),
       manager_id: manager_id,
       managet_pk: manager_pk,
       gateway_contract: gateway_contract.into(),
-      accounts: Map::new("peleon_account".as_bytes().to_vec()),
+      accounts: Map::new("a-".as_bytes().to_vec()),
     }
   }
 
@@ -74,28 +75,7 @@ impl ContractWallet {
     self.managet_pk = new_manager_pk;
   }
 
-  fn create_account(&self, username: String) -> AccountId {
-    self.only_manager();
-    let mut account_id = username.clone();
-    account_id.push_str(&env::current_account_id());
-    let account_hash = Self::get_account_hash(&username, &account_id);
-    // panic if account id already taken
-    match self.get_account(account_hash) {
-      Some(_) => panic!("Account with given username already exists!"),
-      None => {
-        let new_account = Account {
-          username: username,
-          account_id: account_id.clone()
-        };
-        // create the account
-        Promise::new(account_id.clone())
-          .create_account();
-        account_id
-      }
-    }
-  }
-
-  fn get_account_hash(username: &String, account_id: &String) -> Vec<u8> {
+  pub fn get_account_hash(username: &String, account_id: &String) -> Vec<u8> {
     let account_bytes = [username.as_bytes(), account_id.as_bytes()].concat();
     env::keccak256(&account_bytes)
   }
@@ -106,5 +86,27 @@ impl ContractWallet {
 
   fn set_account(&mut self, account_hash: &Vec<u8>, account: &Account) -> Option<Account> {
     self.accounts.insert(account_hash, account)
+  }
+
+  pub fn create_account(&mut self, username: String) -> AccountId {
+    self.only_manager();
+    let mut account_id = username.clone();
+    account_id.push_str(&env::current_account_id());
+    let account_hash = Self::get_account_hash(&username, &account_id);
+    // panic if account id already taken
+    if self.get_account(account_hash).is_some() {
+      panic!("account with given username already exists!")
+    } else {
+      // create the account
+      Promise::new(account_id.clone())
+        .create_account();
+      let hash = Self::get_account_hash(&username, &account_id);
+      let new_account = Account {
+        username: username,
+        account_id: account_id.to_owned()
+      };
+      self.set_account(&hash, &new_account);
+      account_id
+    }
   }
 }

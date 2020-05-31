@@ -1,0 +1,50 @@
+Arguments: 
+  /Users/sladuca/.nvm/versions/node/v13.11.0/bin/node /Users/sladuca/.yarn/bin/yarn.js build
+
+PATH: 
+  /Users/sladuca/google-cloud-sdk/bin:/Users/sladuca/.yarn/bin:/Users/sladuca/.config/yarn/global/node_modules/.bin:/Users/sladuca/.nvm/versions/node/v13.11.0/bin:/Users/sladuca/bin:/usr/local/bin:/Users/sladuca/Library/Python/2.7/bin:/Users/sladuca/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/sladuca/google-cloud-sdk/bin:/Users/sladuca/.yarn/bin:/Users/sladuca/.config/yarn/global/node_modules/.bin:/Users/sladuca/.nvm/versions/node/v13.11.0/bin:/Users/sladuca/bin:/Users/sladuca/Library/Python/2.7/bin:/Users/sladuca/.cargo/bin:/Users/sladuca/go/bin:/Users/sladuca/go/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  13.11.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/sladuca/peleon/wallet/package.json: Unexpected token ] in JSON at position 506
+      at JSON.parse (<anonymous>)
+      at /Users/sladuca/.yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/Users/sladuca/.yarn/lib/cli.js:310:30)
+      at /Users/sladuca/.yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "peleon-wallet-contract",
+    "version": "1.0.0",
+    "description": "Peleon's walle contract built using NEAR protocol's example fungible token",
+    "scripts": {
+      "build": "cargo build --target wasm32-unknown-unknown --release",
+      "postbuild": "cp target/wasm32-unknown-unknown/release/chiron_token.wasm ./res/",
+      "test": "cargo test --package chiron-token -- --nocapture"
+    },
+    "keywords": [
+      "near-protocol",
+      "blockchain",
+      "rust",
+      "smart-contract",
+      "hosted-wallet",
+    ],
+    "author": "Mike Purvis, Sebastien La Duca",
+    "license": "MIT",
+    "devDependencies": {}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
