@@ -4,8 +4,8 @@
   "description": "Hostet wallet contract built atop NEAR protocol example",
   "scripts": {
     "build": "cargo build --target wasm32-unknown-unknown --release",
-    "postbuild": "cp target/wasm32-unknown-unknown/release/peleon_wallet_contract.wasm ./res/",
-    "test": "cargo test --package peleon_wallet_contract -- --nocapture"
+    "postbuild": "cp target/wasm32-unknown-unknown/release/wallet_contract.wasm ./res/",
+    "test": "cargo test --package wallet_contract -- --nocapture"
   },
   "keywords": [
     "near-protocol",
